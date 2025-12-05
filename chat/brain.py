@@ -1,5 +1,10 @@
 from openai import OpenAI
 import httpx
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+API_KEY = os.getenv("API_KEY")
 
 
 my_http_client = httpx.Client(
@@ -7,7 +12,7 @@ my_http_client = httpx.Client(
 )
 
 client = OpenAI(
-    api_key="sk-f63a7c684481453fb4ed6de961da2fac",
+    api_key= API_KEY ,
     base_url="https://api.deepseek.com",
     http_client = my_http_client
     )
