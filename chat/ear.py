@@ -2,6 +2,7 @@ import speech_recognition as sr
 import whisper
 import os
 import torch
+import numpy as np
 
 MODEL_SIZE = "small"
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
@@ -11,12 +12,13 @@ model = whisper.load_model(MODEL_SIZE, device = DEVICE)
 
 print("initializing ear")
 r = sr.Recognizer()
-r.pause_threshold = 1
+r.dynamic_energy_threshold = True
+r.pause_threshold = 0.8
 mic = sr.Microphone()
 
 with mic as source:
         print("adjusting to env voices")
-        r.adjust_for_ambient_noise(source)
+        r.adjust_for_ambient_noise(source, duration = 2)
         print("done")
 
 def listen():
@@ -27,13 +29,20 @@ def listen():
         except sr.WaitTimeoutError:
             print("timeout: did u really speak?")
             return None
+
     try:
         temp_file = "temp.wav"
         with open(temp_file, "wb") as f:
             f.write(audio.get_wav_data())
 
-        result = model.transcribe(temp_file, language = 'zh')
+        result = model.transcribe(
+            temp_file,
+             language = 'zh', 
+            initial_prompt = "这是一段日常的中文对话，不要翻译，不要字幕"
+            )
+            
         text = result["text"].strip()
+
         os.remove(temp_file)
         print("---")
         print("u said: ", text)
