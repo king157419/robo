@@ -1,0 +1,22 @@
+[Unit]
+Description=Robo-Desktop AI Pet Service
+After=network.target sound.target
+
+[Service]
+Type=simple
+User=%i
+WorkingDirectory=/path/to/robo
+ExecStart=/usr/bin/python3 /path/to/robo/chat/main.py
+Restart=on-failure
+RestartSec=10
+
+# 环境变量
+Environment="DISPLAY=:0"
+Environment="PULSE_SERVER=unix:/run/user/1000/pulse/native"
+
+# 标准输出和错误日志
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
