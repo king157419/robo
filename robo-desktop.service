@@ -1,20 +1,35 @@
+# Robo-Desktop Systemd Service Configuration
+# 
+# 安装说明 (Installation Instructions):
+# 1. 修改下方的 WorkingDirectory 和 ExecStart 路径为实际的项目路径
+# 2. 修改 User 为实际运行用户名
+# 3. 如果用户ID不是1000，修改 PULSE_SERVER 中的用户ID
+#    (使用 'id -u' 命令查看当前用户ID)
+# 4. 复制到 /etc/systemd/system/: sudo cp robo-desktop.service /etc/systemd/system/
+# 5. 重载配置: sudo systemctl daemon-reload
+# 6. 启用服务: sudo systemctl enable robo-desktop.service
+# 7. 启动服务: sudo systemctl start robo-desktop.service
+
 [Unit]
 Description=Robo-Desktop AI Pet Service
 After=network.target sound.target
 
 [Service]
 Type=simple
-User=%i
+# 修改为实际运行用户名 (Change to actual username)
+User=your_username
+# 修改为实际项目路径 (Change to actual project path)
 WorkingDirectory=/path/to/robo
 ExecStart=/usr/bin/python3 /path/to/robo/chat/main.py
 Restart=on-failure
 RestartSec=10
 
-# 环境变量
+# 环境变量 (Environment variables)
 Environment="DISPLAY=:0"
+# 修改用户ID为实际值，使用 'id -u' 命令查看 (Change user ID to actual value, use 'id -u' to check)
 Environment="PULSE_SERVER=unix:/run/user/1000/pulse/native"
 
-# 标准输出和错误日志
+# 标准输出和错误日志 (Standard output and error logs)
 StandardOutput=journal
 StandardError=journal
 

@@ -24,7 +24,7 @@ fi
 
 # 检查依赖是否安装
 echo "📦 检查依赖 (Checking dependencies)..."
-python3 -c "import pygame" 2>/dev/null || {
+python3 -c "import speech_recognition, whisper, pygame, openai" 2>/dev/null || {
     echo "⚠️  警告: 依赖未完全安装 (Warning: Dependencies not fully installed)"
     echo "正在安装依赖... (Installing dependencies...)"
     pip3 install -r "$SCRIPT_DIR/requirements.txt"

@@ -27,7 +27,7 @@ if not exist ".env" (
 
 REM 检查依赖是否安装
 echo 📦 检查依赖 ^(Checking dependencies^)...
-python -c "import pygame" >nul 2>&1
+python -c "import speech_recognition, whisper, pygame, openai" >nul 2>&1
 if errorlevel 1 (
     echo ⚠️  警告: 依赖未完全安装 ^(Warning: Dependencies not fully installed^)
     echo 正在安装依赖... ^(Installing dependencies...^)
